@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="container col-md-8 m-3" id="items_table">
+      <table class="table">
+         <thead>
+            <tr>
+                <th scope="col">Date of play</th>
+               <th scope="col">Team Home</th>
+                <th scope="col">Score</th>
+               <th scope="col">Team Away</th>
+                <th scope="col">Player</th>
+                <th scope="col">Actual score</th>
+                <th scope="col">Margin score</th>
+                <th scope="col">Bet score</th>
+                <th scope="col">Bet result</th>
+                <th scope="col">Play time</th>
+                <th scope="col">Attempts</th>
+                <th scope="col">Realised attempts</th>
+                <th scope="col">Date of creation</th>
+
+            </tr>
+         </thead>
+         <tbody>
+            {% for item in player_bets %}
+            <tr>
+                <td>{{ item.bet_match.date_of_play }}</td>
+               <td>{{ item.bet_match.team_home.short_name }}</td>
+                <td>{{ item.bet_match.team_home_score }} : {{ item.bet_match.team_away_score }}</td>
+               <td>{{ item.bet_match.team_away.short_name }}</td>
+                <td>{{ item.player.name }} {{ item.player.surname }}</td>
+                <td>{{ item.actual_score }}</td>
+                <td>{{ item.margin_score }}</td>
+                <td>{{ item.bet_score }}</td>
+                <td>{{ item.bet_result }}</td>
+                <td>{{ item.play_time }}</td>
+                <td>{{ item.attempts }}</td>
+                <td>{{ item.realised_attempts }}</td>
+                <td>{{ item.creation_date }}</td>
+
+               <td>
+                  <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
+                  <form method="post"action="/players_bet/delete">
+                     <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
+                     <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
+                  </form>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="container col-md-3 collapse show" id="createEditCollapse">
+      <div class="container my-3 text-center">
+         <form method="post" action="/players_bet/add">
+            {{ players_bet_create.hidden_tag() }}
+
+            {{ players_bet_create.bet_match.label() }}
+            {{ players_bet_create.bet_match(class="form-select") }}
+
+             {{ players_bet_create.player.label() }}
+            {{ players_bet_create.player(class="form-select") }}
+
+             {{ players_bet_create.actual_score.label() }}
+            {{ players_bet_create.actual_score(class="form-control") }}
+
+             {{ players_bet_create.margin_score.label() }}
+            {{ players_bet_create.margin_score(class="form-control") }}
+
+             {{ players_bet_create.bet_score.label() }}
+            {{ players_bet_create.bet_score(class="form-control") }}
+
+             {{ players_bet_create.bet_result.label() }}
+            {{ players_bet_create.bet_result(class="form-control") }}
+
+             {{ players_bet_create.play_time.label() }}
+            {{ players_bet_create.play_time(class="form-control", step="1") }}
+
+             {{ players_bet_create.attempts.label() }}
+            {{ players_bet_create.attempts(class="form-control") }}
+
+             {{ players_bet_create.realised_attempts.label() }}
+            {{ players_bet_create.realised_attempts(class="form-control") }}
+
+            {{ players_bet_create.submit(class="btn btn-block btn-success") }}
+         </form>
+      </div>
+      <div class="container my-3 text-center">
+         <form method="post" action="/players_bet/update">
+            {{ players_bet_update.hidden_tag() }}
+            {{ players_bet_update.bet_match.label() }}
+            {{ players_bet_update.bet_match(class="form-select", id="bet_match_update") }}
+
+             {{ players_bet_update.player.label() }}
+            {{ players_bet_update.player(class="form-select", id="player_update") }}
+
+             {{ players_bet_update.actual_score.label() }}
+            {{ players_bet_update.actual_score(class="form-control", id="actual_score_update") }}
+
+             {{ players_bet_update.margin_score.label() }}
+            {{ players_bet_update.margin_score(class="form-control", id="margin_score_update") }}
+
+             {{ players_bet_update.bet_score.label() }}
+            {{ players_bet_update.bet_score(class="form-control", id="bet_score_update") }}
+
+             {{ players_bet_update.bet_result.label() }}
+            {{ players_bet_update.bet_result(class="form-control", id="bet_result_update") }}
+
+             {{ players_bet_update.play_time.label() }}
+            {{ players_bet_update.play_time(class="form-control", id="play_time_update") }}
+
+             {{ players_bet_update.attempts.label() }}
+            {{ players_bet_update.attempts(class="form-control", id="attempts_update") }}
+
+             {{ players_bet_update.realised_attempts.label() }}
+            {{ players_bet_update.realised_attempts(class="form-control", id="realised_attempts_update") }}
+            <input id="id" name="id" type="hidden" value="">
+            {{ players_bet_update.submit(class="btn btn-block btn-warning") }}
+         </form>
+      </div>
+   </div>
+</div>
+{% endblock %}
+{% block script %}
+function update_btn(data){
+    console.log(data)
+    document.getElementById("id").value=data['id']
+    document.getElementById("bet_match_update").value=data['bet_match']['id']
+    document.getElementById("player_update").value=data['player']['id']
+    document.getElementById("actual_score_update").value=data['actual_score']
+    document.getElementById("margin_score_update").value=data['margin_score']
+    document.getElementById("bet_score_update").value=data['bet_score']
+    document.getElementById("bet_result_update").value=data['bet_result']
+    document.getElementById("play_time_update").value=data['play_time']
+    document.getElementById("attempts_update").value=data['attempts']
+    document.getElementById("realised_attempts_update").value=data['realised_attempts']
+
+}
+{% endblock %}

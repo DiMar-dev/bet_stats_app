@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="container col-md-8 m-3" id="items_table">
+      <table class="table">
+         <thead>
+            <tr>
+               <th scope="col">short name</th>
+               <th scope="col">full name</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for item in teams %}
+            <tr>
+               <td>{{ item.short_name }}</td>
+               <td>{{ item.full_name }}</td>
+               <td>
+                  <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
+                  <form method="post"action="/team/delete">
+                     <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
+                     <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
+                  </form>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="container col-md-3 show" id="createEditCollapse">
+      <div class="container my-3 text-center">
+         <form method="post" action="/team/add">
+            {{ team_create.hidden_tag() }}
+            {{ team_create.short_name.label() }}
+            {{ team_create.short_name(class="form-control") }}
+            {{ team_create.full_name.label() }}
+            {{ team_create.full_name(class="form-control") }}
+            {{ team_create.submit(class="btn btn-block btn-success") }}
+         </form>
+      </div>
+      <div class="container my-3 text-center">
+         <form method="post" action="/team/update">
+            {{ team_update.hidden_tag() }}
+            {{ team_update.short_name.label() }}
+            {{ team_update.short_name(class="form-control", id="short_name_update") }}
+            {{ team_update.full_name.label() }}
+            {{ team_update.full_name(class="form-control", id="full_name_update") }}
+            <input id="id" name="id" type="hidden" value="">
+            {{ team_update.submit(class="btn btn-block btn-warning") }}
+         </form>
+      </div>
+   </div>
+</div>
+{% endblock %}
+{% block script %}
+function update_btn(data){
+    console.log(data['id'])
+    document.getElementById("id").value=data['id']
+    document.getElementById("short_name_update").value=data['short_name']
+    document.getElementById("full_name_update").value=data['full_name']
+}
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="container col-md-8 m-3" id="items_table">
+      <table class="table">
+         <thead>
+            <tr>
+               <th scope="col">Team Home</th>
+                <th scope="col">Score</th>
+               <th scope="col">Team Away</th>
+                <th scope="col">Date of play</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for item in matches %}
+            <tr>
+               <td>{{ item.team_home.short_name }}</td>
+                <td>{{ item.team_home_score }} : {{ item.team_away_score }}</td>
+               <td>{{ item.team_away.short_name }}</td>
+                <td>{{ item.date_of_play }}</td>
+               <td>
+                  <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
+                  <form method="post"action="/match/delete">
+                     <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
+                     <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
+                  </form>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="container col-md-3 show" id="createEditCollapse">
+      <div class="container my-3 text-center">
+         <form method="post" action="/match/add">
+            {{ match_create.hidden_tag() }}
+            {{ match_create.team_home.label() }}
+            {{ match_create.team_home(class="form-select") }}
+            {{ match_create.team_home_score.label() }}
+            {{ match_create.team_home_score(class="form-control") }}
+             {{ match_create.team_away.label() }}
+            {{ match_create.team_away(class="form-select") }}
+            {{ match_create.team_away_score.label() }}
+            {{ match_create.team_away_score(class="form-control") }}
+             {{ match_create.date_of_play.label() }}
+            {{ match_create.date_of_play(class="form-control", type="date") }}
+            {{ match_create.submit(class="btn btn-block btn-success") }}
+         </form>
+      </div>
+      <div class="container my-3 text-center">
+         <form method="post" action="/match/update">
+            {{ match_update.hidden_tag() }}
+            {{ match_update.team_home.label() }}
+            {{ match_update.team_home(class="form-select", id="th_update") }}
+            {{ match_update.team_home_score.label() }}
+            {{ match_update.team_home_score(class="form-control", id="ths_update") }}
+             {{ match_update.team_away.label() }}
+            {{ match_update.team_away(class="form-select", id="ta_update") }}
+            {{ match_update.team_away_score.label() }}
+            {{ match_update.team_away_score(class="form-control", id="tas_update") }}
+             {{ match_update.date_of_play.label() }}
+            {{ match_update.date_of_play(class="form-control", type="date", id="dop_update") }}
+            <input id="id" name="id" type="hidden" value="">
+            {{ match_update.submit(class="btn btn-block btn-warning") }}
+         </form>
+      </div>
+   </div>
+</div>
+{% endblock %}
+{% block script %}
+function update_btn(data){
+    console.log(data)
+    document.getElementById("id").value=data['id']
+    document.getElementById("th_update").value=data['team_home']['id']
+    document.getElementById("ths_update").value=data['team_home_score']
+    document.getElementById("ta_update").value=data['team_away']['id']
+    document.getElementById("tas_update").value=data['team_away_score']
+    document.getElementById("dop_update").value=data['date_of_play']
+}
+{% endblock %}

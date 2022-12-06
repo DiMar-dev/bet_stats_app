@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="container col-md-8 m-3" id="items_table">
+      <table class="table">
+         <thead>
+            <tr>
+               <th scope="col">Name</th>
+               <th scope="col">Surname</th>
+                <th scope="col">Team</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for item in players %}
+            <tr>
+               <td>{{ item.name }}</td>
+               <td>{{ item.surname }}</td>
+                <td>{{ item.team.short_name }}</td>
+               <td>
+                  <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
+                  <form method="post"action="/player/delete">
+                     <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
+                     <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
+                  </form>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="container col-md-3 show" id="createEditCollapse">
+      <div class="container my-3 text-center">
+         <form method="post" action="/player/add">
+            {{ player_create.hidden_tag() }}
+            {{ player_create.name.label() }}
+            {{ player_create.name(class="form-control") }}
+            {{ player_create.surname.label() }}
+            {{ player_create.surname(class="form-control") }}
+             {{ player_create.team.label() }}
+            {{ player_create.team(class="form-select") }}
+            {{ player_create.submit(class="btn btn-block btn-success") }}
+         </form>
+      </div>
+      <div class="container my-3 text-center">
+         <form method="post" action="/player/update">
+            {{ player_update.hidden_tag() }}
+            {{ player_update.name.label() }}
+            {{ player_update.name(class="form-control", id="name_update") }}
+            {{ player_update.surname.label() }}
+            {{ player_update.surname(class="form-control", id="surname_update") }}
+             {{ player_update.team.label() }}
+            {{ player_update.team(class="form-select", id="team_update") }}
+            <input id="id" name="id" type="hidden" value="">
+            {{ player_update.submit(class="btn btn-block btn-warning") }}
+         </form>
+      </div>
+   </div>
+</div>
+{% endblock %}
+{% block script %}
+function update_btn(data){
+    console.log(data['id'])
+    document.getElementById("id").value=data['id']
+    document.getElementById("name_update").value=data['name']
+    document.getElementById("surname_update").value=data['surname']
+    document.getElementById("team_update").value=data['team']['id']
+}
+{% endblock %}
