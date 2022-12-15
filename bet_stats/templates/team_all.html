@@ -5,8 +5,10 @@
       <table class="table">
          <thead>
             <tr>
-               <th scope="col">short name</th>
-               <th scope="col">full name</th>
+               <th scope="col">Short Name</th>
+               <th scope="col">Full Name</th>
+                <th scope="col">Edit</th>
+               <th scope="col">Delete</th>
             </tr>
          </thead>
          <tbody>
@@ -14,13 +16,15 @@
             <tr>
                <td>{{ item.short_name }}</td>
                <td>{{ item.full_name }}</td>
-               <td>
+               <td class="px-0 w-auto">
                   <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
-                  <form method="post"action="/team/delete">
+               </td>
+                <td class="px-0">
+                    <form method="post"action="/team/delete">
                      <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
                      <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
                   </form>
-               </td>
+                </td>
             </tr>
             {% endfor %}
          </tbody>

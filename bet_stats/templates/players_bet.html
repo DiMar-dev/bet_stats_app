@@ -18,6 +18,8 @@
                 <th scope="col">Attempts</th>
                 <th scope="col">Realised attempts</th>
                 <th scope="col">Date of creation</th>
+                <th scope="col">Edit</th>
+               <th scope="col">Delete</th>
 
             </tr>
          </thead>
@@ -38,13 +40,15 @@
                 <td>{{ item.realised_attempts }}</td>
                 <td>{{ item.creation_date }}</td>
 
-               <td>
+               <td class="px-0">
                   <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
-                  <form method="post"action="/players_bet/delete">
+               </td>
+                <td class="px-0">
+                    <form method="post"action="/players_bet/delete">
                      <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
                      <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
                   </form>
-               </td>
+                </td>
             </tr>
             {% endfor %}
          </tbody>

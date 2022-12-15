@@ -9,6 +9,8 @@
                 <th scope="col">Score</th>
                <th scope="col">Team Away</th>
                 <th scope="col">Date of play</th>
+                <th scope="col">Edit</th>
+               <th scope="col">Delete</th>
             </tr>
          </thead>
          <tbody>
@@ -18,13 +20,15 @@
                 <td>{{ item.team_home_score }} : {{ item.team_away_score }}</td>
                <td>{{ item.team_away.short_name }}</td>
                 <td>{{ item.date_of_play }}</td>
-               <td>
+               <td class="px-0">
                   <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
-                  <form method="post"action="/match/delete">
+               </td>
+                <td class="px-0">
+                    <form method="post"action="/match/delete">
                      <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
                      <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
                   </form>
-               </td>
+                </td>
             </tr>
             {% endfor %}
          </tbody>

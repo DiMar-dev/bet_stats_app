@@ -8,6 +8,8 @@
                <th scope="col">Name</th>
                <th scope="col">Surname</th>
                 <th scope="col">Team</th>
+                <th scope="col">Edit</th>
+               <th scope="col">Delete</th>
             </tr>
          </thead>
          <tbody>
@@ -16,13 +18,15 @@
                <td>{{ item.name }}</td>
                <td>{{ item.surname }}</td>
                 <td>{{ item.team.short_name }}</td>
-               <td>
+               <td class="px-0">
                   <button type="button" onclick="update_btn({{ item | string }})" class="btn btn-warning update_btn"><i class="bi bi-pencil-square"></i></button>
-                  <form method="post"action="/player/delete">
+               </td>
+                <td class="px-0">
+                    <form method="post"action="/player/delete">
                      <input id="obj_id" name="id" type="hidden" value="{{ item.id }}">
                      <button type="submit" class="btn btn-danger delete_btn"><i class="bi bi-trash"></i></button>
                   </form>
-               </td>
+                </td>
             </tr>
             {% endfor %}
          </tbody>
