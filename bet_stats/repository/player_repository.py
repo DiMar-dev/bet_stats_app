@@ -4,7 +4,7 @@ from bet_stats.model.player import Player
 
 
 def get_all_players():
-    return Player.query.all()
+    return Player.query.order_by(Player.name).all()
 
 
 def get_player_by_id(obj_id):

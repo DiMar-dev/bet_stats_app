@@ -2,7 +2,7 @@ from bet_stats.model.team import Team
 
 
 def get_all_teams():
-    return Team.query.all()
+    return Team.query.order_by(Team.short_name).all()
 
 
 def get_team_by_id(obj_id):

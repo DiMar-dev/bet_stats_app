@@ -73,12 +73,13 @@
 {% endblock %}
 {% block script %}
 function update_btn(data){
-    console.log(data)
+    date = data['date_of_play'].split("-")
+    date = date[2] + '-' + date[1] + '-' + date[0]
     document.getElementById("id").value=data['id']
     document.getElementById("th_update").value=data['team_home']['id']
     document.getElementById("ths_update").value=data['team_home_score']
     document.getElementById("ta_update").value=data['team_away']['id']
     document.getElementById("tas_update").value=data['team_away_score']
-    document.getElementById("dop_update").value=data['date_of_play']
+    document.getElementById("dop_update").value=date
 }
 {% endblock %}

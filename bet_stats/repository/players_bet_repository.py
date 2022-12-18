@@ -4,7 +4,7 @@ from bet_stats.model.players_bet import PlayersBet
 
 
 def get_all_players_bets():
-    return PlayersBet.query.all()
+    return PlayersBet.query.order_by(PlayersBet.creation_date.desc()).all()
 
 
 def get_players_bet_by_id(obj_id):
@@ -12,7 +12,8 @@ def get_players_bet_by_id(obj_id):
 
 
 def get_matches_by_player_id(player_id):
-    return PlayersBet.query.filter(PlayersBet.player_id == player_id).all()
+    return PlayersBet.query.filter(PlayersBet.player_id == player_id)\
+        .order_by(PlayersBet.creation_date.desc()).all()
 
 
 def get_player_bets_by_result(result):

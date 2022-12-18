@@ -4,7 +4,7 @@ from bet_stats.model.match import Match
 
 
 def get_all_matches():
-    return Match.query.all()
+    return Match.query.order_by(Match.date_of_play.desc()).all()
 
 
 def get_match_by_id(obj_id):

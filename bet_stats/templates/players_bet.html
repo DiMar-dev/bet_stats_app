@@ -2,6 +2,18 @@
 {% block content %}
 <div class="row">
    <div class="container col-md-8 m-3" id="items_table">
+       <div class="row p-3 d-inline-flex justify-content-start">
+           <div class="container">
+               <form method="post" action="/players_bet/filter">
+                    {{ players_bet_filter.hidden_tag() }}
+
+                    {{ players_bet_filter.player.label() }}
+                    {{ players_bet_filter.player(class="form-select") }}
+                    {{ players_bet_filter.submit(class="btn btn-block btn-success") }}
+                </form>
+           </div>
+           <a class="btn btn-outline-danger btn-sm" href="/players_bet">Reset filter</a>
+       </div>
       <table class="table">
          <thead>
             <tr>
@@ -92,34 +104,34 @@
       <div class="container my-3 text-center">
          <form method="post" action="/players_bet/update">
             {{ players_bet_update.hidden_tag() }}
-            {{ players_bet_update.bet_match.label() }}
-            {{ players_bet_update.bet_match(class="form-select", id="bet_match_update") }}
+            {{ players_bet_update.bet_match_update.label() }}
+            {{ players_bet_update.bet_match_update(class="form-select") }}
 
-             {{ players_bet_update.player.label() }}
-            {{ players_bet_update.player(class="form-select", id="player_update") }}
+             {{ players_bet_update.player_update.label() }}
+            {{ players_bet_update.player_update(class="form-select") }}
 
-             {{ players_bet_update.actual_score.label() }}
-            {{ players_bet_update.actual_score(class="form-control", id="actual_score_update") }}
+             {{ players_bet_update.actual_score_update.label() }}
+            {{ players_bet_update.actual_score_update(class="form-control") }}
 
-             {{ players_bet_update.margin_score.label() }}
-            {{ players_bet_update.margin_score(class="form-control", id="margin_score_update") }}
+             {{ players_bet_update.margin_score_update.label() }}
+            {{ players_bet_update.margin_score_update(class="form-control") }}
 
-             {{ players_bet_update.bet_score.label() }}
-            {{ players_bet_update.bet_score(class="form-control", id="bet_score_update") }}
+             {{ players_bet_update.bet_score_update.label() }}
+            {{ players_bet_update.bet_score_update(class="form-control") }}
 
-             {{ players_bet_update.bet_result.label() }}
-            {{ players_bet_update.bet_result(class="form-control", id="bet_result_update") }}
+             {{ players_bet_update.bet_result_update.label() }}
+            {{ players_bet_update.bet_result_update(class="form-control") }}
 
-             {{ players_bet_update.play_time.label() }}
-            {{ players_bet_update.play_time(class="form-control", id="play_time_update") }}
+             {{ players_bet_update.play_time_update.label() }}
+            {{ players_bet_update.play_time_update(class="form-control", step="1") }}
 
-             {{ players_bet_update.attempts.label() }}
-            {{ players_bet_update.attempts(class="form-control", id="attempts_update") }}
+             {{ players_bet_update.attempts_update.label() }}
+            {{ players_bet_update.attempts_update(class="form-control") }}
 
-             {{ players_bet_update.realised_attempts.label() }}
-            {{ players_bet_update.realised_attempts(class="form-control", id="realised_attempts_update") }}
-            <input id="id" name="id" type="hidden" value="">
-            {{ players_bet_update.submit(class="btn btn-block btn-warning") }}
+             {{ players_bet_update.realised_attempts_update.label() }}
+            {{ players_bet_update.realised_attempts_update(class="form-control") }}
+            <input id="id_update" name="id_update" type="hidden" value="">
+            {{ players_bet_update.submit_update(class="btn btn-block btn-warning") }}
          </form>
       </div>
    </div>
@@ -127,15 +139,19 @@
 {% endblock %}
 {% block script %}
 function update_btn(data){
-    console.log(data)
-    document.getElementById("id").value=data['id']
+    document.getElementById("id_update").value=data['id']
     document.getElementById("bet_match_update").value=data['bet_match']['id']
     document.getElementById("player_update").value=data['player']['id']
     document.getElementById("actual_score_update").value=data['actual_score']
     document.getElementById("margin_score_update").value=data['margin_score']
     document.getElementById("bet_score_update").value=data['bet_score']
-    document.getElementById("bet_result_update").value=data['bet_result']
-    document.getElementById("play_time_update").value=data['play_time']
+    if (data['bet_result'] == 'True') {
+        document.getElementById("bet_result_update-0").checked = true;
+    } else {
+        document.getElementById("bet_result_update-1").checked = true;
+    }
+    play_time = "0"+data['play_time']
+    document.getElementById("play_time_update").value=play_time
     document.getElementById("attempts_update").value=data['attempts']
     document.getElementById("realised_attempts_update").value=data['realised_attempts']
 

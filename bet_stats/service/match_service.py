@@ -13,7 +13,7 @@ def save_match(data):
                   team_away_id=data['team_away'],
                   team_home_score=data['team_home_score'],
                   team_away_score=data['team_away_score'],
-                  date_of_play=datetime.now())
+                  date_of_play=data['date_of_play'])
     db_util.save_data(match)
 
 

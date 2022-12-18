@@ -29,10 +29,10 @@ class PlayersBet(db.Model):
             'player_id': self.player_id,
             'player': self.player.serialize,
             'actual_score': self.actual_score,
-            'margin_score': self.margin_score,
+            'margin_score': str(self.margin_score),
             'bet_score': self.bet_score,
-            'bet_result': self.bet_result,
-            'play_time': self.play_time,
+            'bet_result': 'True' if self.bet_result else 'False',
+            'play_time': str(self.play_time),
             'attempts': self.attempts,
             'realised_attempts': self.realised_attempts,
             'creation_date': self.creation_date.strftime('%d-%m-%Y')
